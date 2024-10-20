@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import Navbar from '../components/NavBar.jsx'
 import PopularMovies from '../components/PopularMovies.jsx'
-import Personas from '../components/personas.jsx'
+import Personas from '../components/Personas.jsx'
 import TvShows from '../components/tvShows.jsx'
 import DetailsMovies from '../components/DetailsMovies.jsx'
 import DetailsPersons from '../components/DetailsPersons.jsx'
