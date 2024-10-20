@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from '../src/axiosInstance';
+import axiosInstance from '../Instances/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 export default function PopularMovies() {
@@ -64,7 +64,7 @@ export default function PopularMovies() {
                 ))}
             </div>
 
-            {/* Controles de paginación */}
+            
             <div className="flex justify-between items-center mt-4">
                 <button 
                     onClick={handlePrevPage} 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from '../src/axiosInstance';
+import axiosInstance from '../Instances/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export default function TVShowDetail() {

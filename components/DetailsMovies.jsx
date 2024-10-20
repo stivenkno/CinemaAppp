@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from '../src/axiosInstance';
+import axiosInstance from '../Instances/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export default function MovieDetail() {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
+    const [similarMovies, setSimilarMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -21,8 +22,27 @@ export default function MovieDetail() {
                 setLoading(false);
             }
         };
+
+        const fecthSimilar = async () => {
+            try {
+                const response = await axiosInstance.get(`/movie/${id}/similar?language=en-US&page=1`);
+                setSimilarMovies(response.data.results);
+            } catch (err) {
+                setError('Error fetching similar movies');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        
+        fecthSimilar();
         fetchMovie();
     }, [id]);
+
+    const handleClick = (id) => {
+        navigate(`/movie/${id}`);
+    };
 
     if (loading) return <div className="text-center">Cargando...</div>;
     if (error) return <div className="text-center">{error}</div>;
@@ -53,6 +73,22 @@ export default function MovieDetail() {
                     </div>
                 </div>
             )}
+        
+        <h2 className="text-2xl font-bold mb-4 px-20 py-4">Películas similares</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-20">
+                {similarMovies.map((movie) => (
+                    <div onClick={() => { handleClick(movie.id) }} key={movie.id} className="bg-gray-800 text-white p-4 rounded-lg shadow-lg hover:cursor-pointer ">
+                        <img
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            className="rounded-lg mb-4"
+                        />
+                        <h2 className="text-xl font-semibold mb-2">{movie.title}</h2>
+                        <p className="text-gray-400 text-sm mb-4">{movie.overview.substring(0, 100)}...</p>
+                    </div>
+                ))}
+            </div>
         </div>
+        
     );
 }
